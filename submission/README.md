@@ -5,11 +5,22 @@
  
 
 #### Visualization 1: Technology skill level based on geographic location.
-This visualization displays a geographical breakdown of users based on how technologically savvy they are. The categories are split into Ultra Nerd, Technically Savvy, Average User, and Luddite.
+This visualization displays a geographical breakdown of users based on how technologically savvy they are. The categories are split into Ultra Nerd, Technically Savvy, Average User, and Luddite. 
 
 **Data**
+
+Our Tech Savvy Index is (per country):
+
+    ((# of Luddite * 1) + (# of Average User * 2) + (# of Technically Savvy * 3) + (# of Ultra Nerd * 4))/(Total # of Participants)
+
 **To Run**
+
+Run `./localServer` and navigate to `Vis1.html`
+
 **Design Process:**
+
+We wanted to see how countries compare against eachother based off of participants responses to questions about level of understanding of tech.
+
 
 
 #### Visualization 2: Safety and Privacy compared to devices users own.
