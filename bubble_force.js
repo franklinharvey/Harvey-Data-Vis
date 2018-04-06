@@ -1,9 +1,30 @@
 
-d3.text("data/bubble/bubble.csv", function(data){
-   var result = "id, name, r\n" + data;  //now you have the header
-   var data = d3.csv.parse(result);
-   //do your plotting with data
-}
+var data = [
+    {"id": "0", "name": "losing_touch", "r": 28 },
+    {"id": "0", "name": "nothing", "r": 7 },
+    {"id": "0", "name": "other", "r": 8 },
+    {"id": "0", "name": "privacy", "r": 41 },
+    {"id": "0", "name": "safety", "r": 15 },
+
+    {"id": "1", "name": "losing_touch", "r": 33 },
+    {"id": "1", "name": "nothing", "r": 6 },
+    {"id": "1", "name": "other", "r": 13 },
+    {"id": "1", "name": "privacy", "r": 34 },
+    {"id": "1", "name": "safety", "r": 14 },
+    
+    {"id": "2", "name": "losing_touch", "r": 21 },
+    {"id": "2", "name": "nothing", "r": 7 },
+    {"id": "2", "name": "other", "r": 8 },
+    {"id": "2", "name": "privacy", "r": 48 },
+    {"id": "2", "name": "safety", "r": 15 },
+    
+    {"id": "3", "name": "losing_touchh", "r": 14 },
+    {"id": "3", "name": "nothing", "r": 9 },
+    {"id": "3", "name": "other", "r": 10 },
+    {"id": "3", "name": "privacy", "r": 54 },
+    {"id": "3", "name": "safety", "r": 14 },
+    
+];
 
 var width = window.innerWidth,
     height = 450;
@@ -96,3 +117,4 @@ function resize() {
 }
 
 d3.select(window).on('resize', resize);
+    
