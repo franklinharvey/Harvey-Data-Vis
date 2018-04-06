@@ -26,6 +26,7 @@
       font-weight: bold;
   }
 </style>
+<body>
 <h1>The Tech Savvy Index</h1>
 <!-- <h4>Participants' Self Described Tech Savvinness (out of 4)</h4> -->
 <svg width="960" height="600"></svg>
@@ -52,7 +53,7 @@ var data = d3.map();
 var colorScheme = d3.schemeGreens[4];
 colorScheme.unshift("#eee")
 var colorScale = d3.scaleThreshold()
-    .domain([0, 1, 2, 3, 4])
+    .domain([1, 2, 3, 4])
     .range(colorScheme);
 
 var g = svg.append("g")
@@ -109,3 +110,4 @@ function ready(error, topo) {
               });
 }
 </script>
+</body>
