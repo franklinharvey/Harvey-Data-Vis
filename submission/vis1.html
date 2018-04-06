@@ -12,7 +12,7 @@
   }
   div.tooltip {
       position: absolute;
-      text-align: center;
+      text-align: right;
       padding: 8px;
       font: 14px sans-serif;
       background: green;
@@ -99,7 +99,7 @@ function ready(error, topo) {
               div.transition()
                 .duration(200)
                 .style("opacity", .9);
-              div.html("<b>" + d.properties.name + "</b>: " + d.avg)
+              div.html("<b>" + d.properties.name + "</b>: " + d.avg + "<br /><small>on a scale out of 4</small>")
                 .style("left", (d3.event.pageX) + "px")
                 .style("top", (d3.event.pageY - 28) + "px");
               })
