@@ -13,9 +13,9 @@
   div.tooltip {
       position: absolute;
       text-align: center;
-      padding: 2px;
+      padding: 8px;
       font: 14px sans-serif;
-      background: Thistle;
+      background: green;
       border: 0px;
       pointer-events: none;
       color: Snow;
@@ -26,18 +26,21 @@
       font-weight: bold;
   }
 </style>
+<h1>The Tech Savvy Index</h1>
+<!-- <h4>Participants' Self Described Tech Savvinness (out of 4)</h4> -->
 <svg width="960" height="600"></svg>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
 <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.24.0/d3-legend.js"></script>
 <script>
-// The svg
+
+// Followed a Mike Bostock example for most of the D3, python notebooks are for data calculations
+
 var svg = d3.select("svg"),
     width = +svg.attr("width"),
     height = +svg.attr("height");
 
-// Map and projection
 var path = d3.geoPath();
 var projection = d3.geoNaturalEarth()
     .scale(width / 2 / Math.PI)
@@ -45,15 +48,13 @@ var projection = d3.geoNaturalEarth()
 var path = d3.geoPath()
     .projection(projection);
 
-// Data and color scale
 var data = d3.map();
-var colorScheme = d3.schemeGreens[6];
+var colorScheme = d3.schemeGreens[4];
 colorScheme.unshift("#eee")
 var colorScale = d3.scaleThreshold()
-    .domain([1, 6, 11, 26, 101, 1001])
+    .domain([0, 1, 2, 3, 4])
     .range(colorScheme);
 
-// Legend
 var g = svg.append("g")
     .attr("class", "legendThreshold")
     .attr("transform", "translate(20,20)");
@@ -62,7 +63,7 @@ g.append("text")
     .attr("x", 0)
     .attr("y", -6)
     .text("Students");
-var labels = ['0', '1-5', '6-10', '11-25', '26-100', '101-1000', '> 1000'];
+var labels = ['0', '1', '2', '3', '4'];
 var legend = d3.legendColor()
     .labels(function (d) { return labels[d.i]; })
     .shapePadding(4)
@@ -70,10 +71,9 @@ var legend = d3.legendColor()
 svg.select(".legendThreshold")
     .call(legend);
 
-// Load external data and boot
 d3.queue()
     .defer(d3.json, "http://enjalot.github.io/wwsd/data/world/world-110m.geojson")
-    .defer(d3.csv, "mooc-countries.csv", function(d) { data.set(d.code, +d.total); })
+    .defer(d3.csv, "output.csv", function(d) { data.set(d.code, +d.avg); })
     .await(ready);
 
 function ready(error, topo) {
@@ -89,18 +89,16 @@ function ready(error, topo) {
         .data(topo.features)
         .enter().append("path")
             .attr("fill", function (d){
-                // Pull data for this country
-                d.total = data.get(d.id) || 0;
-                // Set the color
-                return colorScale(d.total);
+                d.avg = data.get(d.id) || 0;
+                return colorScale(d.avg);
             })
             .attr("d", path)
             .on("mouseover", function(d) {
-              console.log(d);
+              // console.log(d);
               div.transition()
                 .duration(200)
                 .style("opacity", .9);
-              div.html("HI")
+              div.html("<b>" + d.properties.name + "</b>: " + d.avg)
                 .style("left", (d3.event.pageX) + "px")
                 .style("top", (d3.event.pageY - 28) + "px");
               })
