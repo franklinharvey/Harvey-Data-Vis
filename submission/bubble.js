@@ -7,12 +7,12 @@
 d3.csv("data/bubble/bubble.csv")
     .row(function(d){ return { skill: d.skill, id: d.id, name: d.name, r: +d.r, }; })
     .get(function(error,data){
-        
-    
+
+
 var margin = {top: 20, right: 80, bottom: 30, left: 50},
     width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;    
-    
+    height = 500 - margin.top - margin.bottom;
+
 var fill = d3.scale.category10();
 
 //foci for the four node clusters
@@ -25,11 +25,11 @@ var svg = d3.select("body").append("svg")
 
 
 // div for the tooltip
-var div = d3.select("body").append("div")	
-    .attr("class", "tooltip")				
-    .style("opacity", 0);    
+var div = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
 
-// setting up the force graph (technically it is a graph, with no links)    
+// setting up the force graph (technically it is a graph, with no links)
 var force = d3.layout.force()
     .nodes(nodes)
     .size([width,height])
@@ -64,7 +64,7 @@ var timer = setInterval(function(){
   if (nodes.length > data.length-1) { clearInterval(timer); return;}
 
   var item = data[counter];
-  nodes.push({id: item.id, r: item.r, name: item.name});
+  nodes.push({id: item.id, r: item.r, name: item.name, skill: item.skill});
   force.start();
 
   node = node.data(nodes);
@@ -79,18 +79,18 @@ var timer = setInterval(function(){
       })
       .call(force.drag)
       .on("mouseover", function(d) {
-          div.transition()		
-            .duration(200)		
-            .style("opacity", .9);		
-          div.html("<b/>"+"skill level:\n" + d.skill + "</b>" + "<br/><small>"  + d.r + "%</small>")	
-            .style("left", (d3.event.pageX) + "px")		
-            .style("top", (d3.event.pageY - 28) + "px");	
-        })	
-    
-       .on("mouseout", function(d) {		
-        div.transition()		
-        .duration(500)		
-        .style("opacity", 0);	
+          div.transition()
+            .duration(200)
+            .style("opacity", .9);
+          div.html("<b/>"+"skill level:\n" + d.skill + "</b>" + "<br/><small>"  + d.r + "%</small>")
+            .style("left", (d3.event.pageX) + "px")
+            .style("top", (d3.event.pageY - 28) + "px");
+        })
+
+       .on("mouseout", function(d) {
+        div.transition()
+        .duration(500)
+        .style("opacity", 0);
         });
 
   n.append("circle")
@@ -102,14 +102,14 @@ var timer = setInterval(function(){
           return d.name;
       })
       .style("font-size", function(d) {
-          return Math.min(2 * d.r, (4 * d.r) / this.getComputedTextLength() * 16) + "px"; 
+          return Math.min(2 * d.r, (4 * d.r) / this.getComputedTextLength() * 16) + "px";
        })
       .attr("dy", ".35em")
 
   counter++;
 }, 100);
 
-    
+
 d3.selection.prototype.moveToFront = function() {
   return this.each(function(){
     this.parentNode.appendChild(this);
