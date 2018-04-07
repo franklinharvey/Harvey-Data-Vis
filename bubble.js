@@ -1,11 +1,13 @@
 
+// for tool tip, referenced: http://bl.ocks.org/d3noob/a22c42db65eb00d4e369
+
+// for multi-force chart referenced:  http://www.fabiobiondi.com/blog/2014/08/snippet-d3-js-force-multi-foci-with-text-autosize/
+
+// read in data
 d3.csv("data/bubble/bubble.csv")
     .row(function(d){ return { skill: d.skill, id: d.id, name: d.name, r: +d.r, }; })
     .get(function(error,data){
         
-/*var width = window.innerWidth,
-    height = 450;
-*/
     
 var margin = {top: 20, right: 80, bottom: 30, left: 50},
     width = 960 - margin.left - margin.right,
@@ -13,6 +15,7 @@ var margin = {top: 20, right: 80, bottom: 30, left: 50},
     
 var fill = d3.scale.category10();
 
+//foci for the four node clusters
 var nodes = [], labels = [],
     foci = [{x: 150, y: 150}, {x: 350, y: 150}, {x: 550, y: 150}, {x: 750, y: 150}];
 
