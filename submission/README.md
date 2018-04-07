@@ -23,9 +23,11 @@ We wanted to see how countries compare against each other based off of participa
 
 
 #### Visualization 2: Safety and Privacy compared to devices users own.
-
+This visual was created to explore what electronics users owned and to get an idea on who they trusted to teach them more about security online. I used a heat map to portray a lot of data at once for a variety of different people. On the y-axis are the options from the mozilla survey for who users would turn to if they wanted to learn, and on the x-axis are the percentage of those people who own the appliance. When you mouseover a block, a text box will appear to give you more details on the true percentage of the people who own that electronic.
 **To Run:**
+Included is project3_vis2_data.csv, which gives the html and javascript script the necessary format to run. To recreate this csv, simply run the main.py file using a file in the same format as the originial 100Mb csv provided. Open up and run the html file with a localhost active.
 **Design Process:**
+I was concerned when I saw that some people trusted the media to teach them about how to protect themselves, and that led me to drill into the data. 
 
 #### Visualization 3: Technology skill level and perceptions of fear.
 This visualization displays how technological skill level impacts users perceptions of fear. The visualization displays each skill level in a different colored cluster of circles. Those clusters show users perceptions of what they fear about losing. The blue cluster represents Average users, orange is Luddite, green is Technically savvy, and red is Ultra nerd. The fears users have are split into five categories of privacy, safety, losing touch, none, and other. The size of the circles represents how many users in that skill level had those fears.
