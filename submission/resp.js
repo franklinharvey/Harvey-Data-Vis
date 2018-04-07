@@ -64,7 +64,7 @@ var timer = setInterval(function(){
   if (nodes.length > data.length-1) { clearInterval(timer); return;}
 
   var item = data[counter];
-  nodes.push({id: item.id, r: item.r, name: item.name});
+  nodes.push({skill: item.skill, id: item.id, r: item.r, name: item.name});
   force.start();
 
   node = node.data(nodes);
