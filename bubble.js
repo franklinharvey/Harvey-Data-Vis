@@ -1,35 +1,45 @@
 
 d3.csv("data/bubble/bubble.csv")
-    .row(function(d){ return {skill: d.skill, id: d.id, name: d.name, r: +d.r}; })
+    .row(function(d){ return { skill: d.skill, id: d.id, name: d.name, r: +d.r, }; })
     .get(function(error,data){
-    
-
-    
-var width = window.innerWidth,
+        
+/*var width = window.innerWidth,
     height = 450;
-
+*/
+    
+var margin = {top: 20, right: 80, bottom: 30, left: 50},
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;    
+    
 var fill = d3.scale.category10();
 
 var nodes = [], labels = [],
-    foci = [{x: 225, y: 150}, {x: 475, y: 150}, {x: 350, y: 150}, {x: 100, y: 150}];
+    foci = [{x: 150, y: 150}, {x: 350, y: 150}, {x: 550, y: 150}, {x: 750, y: 150}];
 
 var svg = d3.select("body").append("svg")
     .attr("width", "100%")
     .attr("height", height)
-    //.attr("domflag", '');
 
+
+// div for the tooltip
+var div = d3.select("body").append("div")	
+    .attr("class", "tooltip")				
+    .style("opacity", 0);    
+
+// setting up the force graph (technically it is a graph, with no links)    
 var force = d3.layout.force()
     .nodes(nodes)
     .size([width,height])
     .links([])
-    .charge(-100)
+    .charge(-200)
+    .linkDistance(100)
     .chargeDistance(220)
     .gravity(0.001)
-    .friction(0.8)
+    .friction(0.9)
     .on("tick", tick);
 
-//var node = svg.selectAll("circle");
-var node = svg.selectAll("g");
+var node = svg.selectAll("circle");
+//var node = svg.selectAll("g");
 
 var counter = 0;
 
@@ -64,10 +74,24 @@ var timer = setInterval(function(){
          var sel = d3.select(this);
          sel.moveToFront();
       })
-      .call(force.drag);
+      .call(force.drag)
+      .on("mouseover", function(d) {
+          div.transition()		
+            .duration(200)		
+            .style("opacity", .9);		
+          div.html("<b/>"+"skill level:\n" + d.skill + "</b>" + "<br/><small>"  + d.r + "%</small>")	
+            .style("left", (d3.event.pageX) + "px")		
+            .style("top", (d3.event.pageY - 28) + "px");	
+        })	
+    
+       .on("mouseout", function(d) {		
+        div.transition()		
+        .duration(500)		
+        .style("opacity", 0);	
+        });
 
   n.append("circle")
-      .attr("r",  function(d) { return (d.r); })
+      .attr("r",  function(d) { return (d.r*1.5); })
       .style("fill", function(d) { return fill(d.id); })
 
   n.append("text")
@@ -75,14 +99,14 @@ var timer = setInterval(function(){
           return d.name;
       })
       .style("font-size", function(d) {
-          return Math.min(2 * d.r, (2 * d.r) / this.getComputedTextLength() * 16) + "px"; 
+          return Math.min(2 * d.r, (4 * d.r) / this.getComputedTextLength() * 16) + "px"; 
        })
       .attr("dy", ".35em")
 
   counter++;
 }, 100);
 
-
+    
 d3.selection.prototype.moveToFront = function() {
   return this.each(function(){
     this.parentNode.appendChild(this);
