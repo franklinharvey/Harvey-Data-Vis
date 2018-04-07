@@ -27,8 +27,8 @@ We wanted to see how countries compare against each other based off of participa
 **To Run**
 **Design Process:**
 
-#### Visualization 3: Technology skill level and perceptions of fear and responsibility.
-This visualization displays how technological skill level impacts users perceptions of fear and responsibility. The visualization displays each skill level in a different colored cluster of circles. Those clusters show users perceptions of what they fear and who they think is most responsible for protecting their online safety, privacy, and security. The blue cluster represents Average users, orange is Luddite, green is Technically savvy, and red is Ultra nerd. The fears users have are split into five categories of privacy, safety, losing touch, none, and other. The size of the circles represents how many users in that skill level had those fears.
+#### Visualization 3: Technology skill level and perceptions of fear.
+This visualization displays how technological skill level impacts users perceptions of fear. The visualization displays each skill level in a different colored cluster of circles. Those clusters show users perceptions of what they fear about losing. The blue cluster represents Average users, orange is Luddite, green is Technically savvy, and red is Ultra nerd. The fears users have are split into five categories of privacy, safety, losing touch, none, and other. The size of the circles represents how many users in that skill level had those fears.
 
 **Data**
 To get the data, we manipulated the original datafile and split it based on users biggest fears and who they thought was most resonsible for protecting the online safety, privacy, and security. Those files compared the fear and responsiblity to technology skill level (Ultra Nerd, Technically Savvy, Average User, and Luddite). 
