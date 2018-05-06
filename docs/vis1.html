@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+  .countries {
+    fill: none;
+    stroke: #fff;
+    stroke-linejoin: round;
+  }
+  .legendThreshold {
+      font-size: 12px;
+      font-family: sans-serif;
+  }
+  div.tooltip {
+      position: absolute;
+      text-align: right;
+      padding: 8px;
+      font: 14px sans-serif;
+      background: green;
+      border: 0px;
+      pointer-events: none;
+      color: Snow;
+  }
+  .caption {
+      fill: #000;
+      text-anchor: start;
+      font-weight: bold;
+  }
+</style>
+<body>
+<h1>The Tech Savvy Index</h1>
+<!-- <h4>Participants' Self Described Tech Savvinness (out of 4)</h4> -->
+<svg width="960" height="600"></svg>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+<script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.24.0/d3-legend.js"></script>
+<script>
+
+// Followed a Mike Bostock example for most of the D3, python notebooks are for data calculations
+
+var svg = d3.select("svg"),
+    width = +svg.attr("width"),
+    height = +svg.attr("height");
+
+var path = d3.geoPath();
+var projection = d3.geoNaturalEarth()
+    .scale(width / 2 / Math.PI)
+    .translate([width / 2, height / 2])
+var path = d3.geoPath()
+    .projection(projection);
+
+var data = d3.map();
+var colorScheme = d3.schemeGreens[4];
+colorScheme.unshift("#eee")
+var colorScale = d3.scaleThreshold()
+    .domain([1, 2, 3, 4])
+    .range(colorScheme);
+
+var g = svg.append("g")
+    .attr("class", "legendThreshold")
+    .attr("transform", "translate(20,20)");
+g.append("text")
+    .attr("class", "caption")
+    .attr("x", 0)
+    .attr("y", -6)
+    .text("Students");
+var labels = ['0', '1', '2', '3', '4'];
+var legend = d3.legendColor()
+    .labels(function (d) { return labels[d.i]; })
+    .shapePadding(4)
+    .scale(colorScale);
+svg.select(".legendThreshold")
+    .call(legend);
+
+d3.queue()
+    .defer(d3.json, "http://enjalot.github.io/wwsd/data/world/world-110m.geojson")
+    .defer(d3.csv, "output.csv", function(d) { data.set(d.code, +d.avg); })
+    .await(ready);
+
+function ready(error, topo) {
+    if (error) throw error;
+
+    var div = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
+
+    svg.append("g")
+        .attr("class", "countries")
+        .selectAll("path")
+        .data(topo.features)
+        .enter().append("path")
+            .attr("fill", function (d){
+                d.avg = data.get(d.id) || 0;
+                return colorScale(d.avg);
+            })
+            .attr("d", path)
+            .on("mouseover", function(d) {
+              // console.log(d);
+              div.transition()
+                .duration(200)
+                .style("opacity", .9);
+              div.html("<b>" + d.properties.name + "</b>: " + d.avg + "<br /><small>on a scale out of 4</small>")
+                .style("left", (d3.event.pageX) + "px")
+                .style("top", (d3.event.pageY - 28) + "px");
+              })
+            .on("mouseout", function(d) {
+              div.transition()
+                .duration(500)
+                .style("opacity", 0);
+              });
+}
+</script>
+</body>
